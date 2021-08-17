@@ -25,7 +25,7 @@ def verify_honeypot_value(request, field_name):
     verifier = getattr(settings, "HONEYPOT_VERIFIER", honeypot_equals)
     if request.request.method == "POST":
         field = field_name or settings.HONEYPOT_FIELD_NAME
-        if field not in request.POST or not verifier(request.request.POST[field]):
+        if field not in request.request.POST or not verifier(request.request.POST[field]):
             resp = render_to_string(
                 "honeypot/honeypot_error.html", {"fieldname": field}
             )
