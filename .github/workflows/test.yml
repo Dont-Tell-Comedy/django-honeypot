@@ -13,9 +13,11 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.7, 3.9]
-        django-version: [2.2, 3.1, 3.2]
-
+        python-version: [3.7, 3.9, '3.10']
+        django-version: [2.2, 3.2, 4.0]
+        exclude:
+          - python-version: 3.7
+            django-version: 4.0
     steps:
     # Python & dependency installation
     - uses: actions/checkout@v2
@@ -24,7 +26,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: install dependencies
-      run: pip install Django==${{ matrix.django-version }} flake8 black
+      run: pip install --pre Django==${{ matrix.django-version }} flake8 black
     - name: lint with flake8
       run: flake8 --show-source --statistics --ignore=E203,E501,W503
     - name: lint with black
